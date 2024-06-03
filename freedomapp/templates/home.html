@@ -1,0 +1,98 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <div class="row mb-4">
+    <div class="col-md-6 mb-2 mb-md-0"> <!-- Adjusting the columns for search -->
+      <form method="get">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search for articles..." name="q" value="{{ query }}">
+          <div class="input-group-append">
+            <button class="btn btn-success" type="submit">Search</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6"> <!-- Adjusting the columns for categories -->
+      <form method="get">
+        <div class="input-group">
+          <select class="form-control" name="category" onchange="this.form.submit()">
+            <option value="">Select Categories</option>
+            {% for cat in categories %}
+              <option value="{{ cat.id }}" {% if selected_category == cat.id %}selected{% endif %}>{{ cat.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-12 mt-3"> <!-- Adjusting the columns for the button -->
+      <form method="get">
+        <button class="btn btn-outline-secondary btn-block" type="submit" style="margin-top: 10px;">Show All Categories</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    {% for post in page_obj %}
+      <div class="col-md-3 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title" style="color: #007bff; padding: 5px; font-weight: bold;">{{ post.title }}</h5>
+            <p class="card-text">{{ post.excerpt|slice:":180" }}</p>
+            <p class="card-text">
+              <small class="text-muted">Published on: {{ post.publication_date }}</small><br>
+              <small class="text-muted">Author: {{ post.author.username }}</small>
+            </p>
+            <a href="{% url 'post_detail' post.id %}" class="btn btn-warning">Read More</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Pagination controls -->
+  <div class="row">
+    <div class="col-12">
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?{% if query %}q={{ query }}&{% endif %}{% if selected_category %}category={{ selected_category }}&{% endif %}page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <span class="page-link">&laquo;</span>
+            </li>
+          {% endif %}
+
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <li class="page-item active">
+                <span class="page-link">{{ num }}</span>
+              </li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <li class="page-item">
+                <a class="page-link" href="?{% if query %}q={{ query }}&{% endif %}{% if selected_category %}category={{ selected_category }}&{% endif %}page={{ num }}">{{ num }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?{% if query %}q={{ query }}&{% endif %}{% if selected_category %}category={{ selected_category }}&{% endif %}page={{ page_obj.next_page_number }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+              </a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <span class="page-link">&raquo;</span>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </div>
+{% endblock %}

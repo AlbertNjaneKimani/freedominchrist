@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Blog</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+    <style>
+        /* Adjustments for mobile devices */
+        @media (max-width: 767px) {
+            .col-md-6, .col-md-12 {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+
+        /* Resizing the logo */
+        img.logo {
+            max-width: 200px;
+            max-height: 100px; /* Adjust as needed */
+            height: auto;
+            /* Light black background */
+            padding: 10px; /* Add some padding */
+            border-radius: 10px; /* Add rounded corners */
+        }
+
+        /* Aligning logo and links */
+        .nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-link {
+            margin-left: 10px; /* Adjust spacing between links */
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: rgba(0, 0, 0, 0.815); /* Black background */
+            color: #fff; /* White text color */
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        footer .contact-info {
+            margin-bottom: 20px;
+        }
+
+        footer .subscription-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        footer .subscription-form h3, footer .subscription-form h5 {
+            margin-bottom: 10px;
+        }
+
+        footer .subscription-form input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        footer .subscription-form button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        footer .subscription-form button:hover {
+            background-color: #0056b3;
+        }
+
+        /* YouTube icon */
+        .youtube-icon {
+            font-size: 24px;
+            color: #ff0000; /* YouTube red */
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="my-4">
+            <!-- Replaced h1 text with logo -->
+            <nav class="nav">
+                <img src="{% static 'freedominjesus.png' %}" alt="Freedom In Christ Logo" class="logo">
+                <a class="nav-link" href="{% url 'home' %}">Home</a>
+                <a class="nav-link" href="{% url 'register' %}">Register</a>
+                <!-- Add more links here -->
+                {% if user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}" class="nav-link">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-link">Logout</button>
+                </form>
+                {% else %}
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+                {% endif %}
+                <!-- External link with YouTube icon -->
+                <a class="nav-link" href="https://www.youtube.com/@freedominchrist1993" target="_blank">
+                    <i class="fab fa-youtube youtube-icon"></i> View our video teachings
+                </a>
+            </nav>
+        </header>
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="contact-info">
+                <h3>Contact Us</h3>
+                <p>Email: freedominchrist@gmail.com</p>
+            </div>
+            <div class="subscription-form">
+                <h3>Subscribe to Our Newsletter</h3>
+                <h5>Subscribe to receive our latest posts</h5>
+                <form style="display: flex; align-items: center;">
+                    <input type="email" placeholder="Enter your email" style="flex: 2; margin-right: 10px;">
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+            <!-- External link with YouTube icon -->
+            <a href="https://www.youtube.com/@freedominchrist1993" target="_blank" class="youtube-icon"><i class="fab fa-youtube"></i> View our video teachings</a>
+        </div>
+    </footer>
+</body>
+</html>

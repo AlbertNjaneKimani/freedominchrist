@@ -1,0 +1,148 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<style>
+    /* Custom form styling */
+    .card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        background-color: #ffffff;
+        border-bottom: none;
+        text-align: center;
+        padding: 2rem 0;
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 0.8rem;
+    }
+
+    label {
+        font-weight: 600;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        width: 100%;
+        padding: 3px; 
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+        border-color: #80bdff;
+        outline: none;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .btn-primary {
+        background-color: #4285f4;
+        border-color: #4285f4;
+        border-radius: 35px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+    }
+
+    .btn-primary:hover {
+        background-color: #357ae8;
+        border-color: #357ae8;
+    }
+    .mt-2 {
+        margin-top: 0.5rem;
+    }
+
+    .mt-4 {
+        margin-top: 1.0rem;
+    }
+
+    /* Link styling */
+    .mt-2 a {
+        color: #4285f4;
+        text-decoration: none;
+    }
+
+    .mt-2 a:hover {
+        text-decoration: underline;
+    }
+
+    /* Custom alert styling */
+    .error-message {
+        color: red;
+        margin-top: 10px;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header text-center bg-white border-0">
+                    <h3 class="mb-0">Create your account</h3>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} {% if message.tags == 'error' %}error-message{% endif %}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="id_username">Username</label>
+                            {{ form.username }}
+                            {% if form.username.errors %}
+                                <div class="text-danger">
+                                    {{ form.username.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_email">Email</label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <div class="text-danger">
+                                    {{ form.email.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_password1">Password</label>
+                            {{ form.password1 }}
+                            {% if form.password1.errors %}
+                                <div class="text-danger">
+                                    {{ form.password1.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_password2">Confirm Password</label>
+                            {{ form.password2 }}
+                            {% if form.password2.errors %}
+                                <div class="text-danger">
+                                    {{ form.password2.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block mt-1">Register</button>
+                        <p class="mt-2">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
