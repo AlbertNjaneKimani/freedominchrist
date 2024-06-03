@@ -1,8 +1,10 @@
 #!/bin/bash
 
+# Exit the script on any error
+set -e
+
 # Build the project
 echo "Building the project..."
-pip install django
 python3.9 -m pip install -r requirements.txt
 
 echo "Make Migration..."
