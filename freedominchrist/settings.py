@@ -80,14 +80,14 @@ WSGI_APPLICATION = 'freedominchrist.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'freedominchrist',
+        'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'PASSWORD': 'DacNQcZyKFJOULJGVlltpVxRCrPbwhyR',
+        'HOST': 'viaduct.proxy.rlwy.net',
+        'PORT': '27687',
     }
 }
-DATABASES['default'] = dj_database_url.config()
+#DATABASES['default'] = dj_database_url.config()
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
