@@ -1,15 +1,21 @@
 #!/bin/bash
 
-# Exit the script on any error
+# Exit immediately if a command exits with a non-zero status
 set -e
 
-# Build the project
-echo "Building the project..."
+# Create and activate a virtual environment
+python3.9 -m venv venv
+source venv/bin/activate
+
+# Upgrade pip and install the project's dependencies
+python3.9 -m pip install --upgrade pip
 python3.9 -m pip install -r requirements.txt
 
-echo "Make Migration..."
+# Apply database migrations
+echo "Making migrations..."
 python3.9 manage.py makemigrations --noinput
 python3.9 manage.py migrate --noinput
 
-echo "Collect Static..."
+# Collect static files
+echo "Collecting static files..."
 python3.9 manage.py collectstatic --noinput --clear
